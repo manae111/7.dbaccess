@@ -23,10 +23,10 @@ public class Ex05Popular {
                 """;
             pstmt = con.prepareStatement(sql);
             int numOfUpdate = pstmt.executeUpdate();
-            System.out.println(numOfUpdate + "件のデータを操作しました");
+            System.out.println(numOfUpdate + "件のデータを操作しました。");
 
         } catch (SQLException ex) {
-            System.out.println(sql + "のエラーです");
+            System.err.println("SQL=" + sql);
             ex.printStackTrace();
 
         } finally {
