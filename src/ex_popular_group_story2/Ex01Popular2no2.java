@@ -21,15 +21,23 @@ public class Ex01Popular2no2 {
                     color_id integer references colors (id)
                     );
                     """;
-        try (Connection con = DriverManager.getConnection(url, user, password);
-            PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (Connection con = DriverManager.getConnection(url, user, password)) {
+            con.setAutoCommit(false);
 
-            int numOfUpdate = pstmt.executeUpdate();
-            System.out.println(numOfUpdate + "件のデータを操作しました。");
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                
+                int numOfUpdate = pstmt.executeUpdate();
+                System.out.println(numOfUpdate + "件のデータを操作しました。");
+                con.commit();
 
-        } catch (SQLException ex) {
+            } catch (SQLException ex) {
+                con.rollback();
+            }
+            
+        } catch (SQLException e) {
             System.err.println("SQL=" + sql);
-            ex.printStackTrace();
+            e.printStackTrace();
+            
         } 
     }
 }
